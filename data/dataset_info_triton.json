@@ -1,0 +1,14 @@
+{
+  "identity": {
+    "file_name": "identity.json"
+  },
+  "triton_github_scrape_25k_repos": {
+    "formatting": "alpaca",
+    "hf_hub_url": "GPUMODE/pytorch_scrape_inductor_data",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}
