@@ -12,10 +12,24 @@ dataset format for Llama Factory (Alpaca)
 import json
 import argparse
 
+import os
 from tqdm import tqdm
 from datasets import load_dataset
 
-TRITON_INSTRUCTION = "Convert this PyTorch neural network code to its optimized Triton implementation."
+import toml
+import string
+
+
+# TRITON_INSTRUCTION = "Convert this PyTorch neural network code to its optimized Triton implementation."
+
+def construct_instruction(entrypoint_name):
+    # Load the TOML configuration
+    config = toml.load("triton/triton_prompt_no_ex_template.toml")
+
+    # Format the prompt with the architecture name
+    formatted_prompt = config["prompt"].format(entrypoint_name=entrypoint_name)
+
+    return formatted_prompt
 
 def convert_dataset_from_huggingface(dataset_name, output_file, limit:int=None):
     # Load the dataset from HuggingFace
@@ -41,11 +55,10 @@ def convert_dataset_from_huggingface(dataset_name, output_file, limit:int=None):
     converted_data = []
 
     for item in tqdm(data):
-        import pdb; pdb.set_trace()
         entry_point = item["entry_point"]
         uuid = item["uuid"]
         converted_item = {
-            "instruction": TRITON_INSTRUCTION,
+            "instruction": construct_instruction(entry_point),
             "input": item["python_code"],
             "output": item["triton_code"],
             "entry_point": entry_point,
@@ -58,13 +71,24 @@ def convert_dataset_from_huggingface(dataset_name, output_file, limit:int=None):
     with open(output_file, 'w') as f:
         json.dump(converted_data, f, indent=2)
 
-
 if __name__ == "__main__":
+
+
+    out_dataset_dir = "/matx/u/simonguo/triton_sft_data"
+    limit = 5000
+
+    out_file_name = f"pytorch_scrape_github_inductor_data_alpaca_inst_{limit}_samples.json"
+    out_file_path = os.path.join(out_dataset_dir, out_file_name)
+    dataset_name = "GPUMODE/pytorch_scrape_inductor_data"
+
     convert_dataset_from_huggingface(
-        dataset_name="GPUMODE/pytorch_scrape_inductor_data",
-        output_file="pytorch_scrape_github_inductor_data_alpaca.json",
-        limit=5
+        dataset_name=dataset_name,
+        output_file=out_file_path,
+        limit=limit
     )
+
+    print(f"Converting dataset {dataset_name} to Alpaca format and saving to {out_file_path}")
+
 
 # if __name__ == "__main__":
 #     parser = argparse.ArgumentParser()
