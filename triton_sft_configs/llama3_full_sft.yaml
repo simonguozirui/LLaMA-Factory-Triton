@@ -2,35 +2,25 @@
 model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
 trust_remote_code: true
 
-### Logging
-report_to: wandb
-run_name: trial_example_llama3_8b_lora_sft_github_5k
-
 ### method
 stage: sft
 do_train: true
-finetuning_type: lora
-# r=256 (not less than 64)
-lora_rank: 256
-# lora_alpha:  default = r * 2
-lora_target: all
-
+finetuning_type: full
+deepspeed: examples/deepspeed/ds_z3_config.json  # choices: [ds_z0_config.json, ds_z2_config.json, ds_z3_config.json]
 
 ### dataset
-# dataset: identity,triton_github_scrape_25k_repos
-dataset: triton_sft_5k
+dataset: identity,alpaca_en_demo
 template: llama3
-# 95% of the dataset check tokenizer
-# very important
+# limit this for now
 cutoff_len: 1024
-max_samples: 5000
+max_samples: 15000
 overwrite_cache: true
 preprocessing_num_workers: 16
 dataloader_num_workers: 4
 
 ### output
-output_dir: /matx/u/simonguo/triton_sft_models/llama3-8b/lora/sft
-logging_steps: 10 
+output_dir: saves/llama3-8b/full/sft
+logging_steps: 10
 save_steps: 500
 plot_loss: true
 overwrite_output_dir: true
@@ -38,14 +28,9 @@ save_only_model: false
 
 ### train
 per_device_train_batch_size: 1
-gradient_accumulation_steps: 8
-
-# LR: min val 1e-6 max val 3e-4
-# 1e-5, 5e-6, 1e-4 (max)
+gradient_accumulation_steps: 2
 learning_rate: 1.0e-5
-
-# epochs = 3 - 5
-num_train_epochs: 4.0
+num_train_epochs: 3.0
 lr_scheduler_type: cosine
 warmup_ratio: 0.1
 bf16: true

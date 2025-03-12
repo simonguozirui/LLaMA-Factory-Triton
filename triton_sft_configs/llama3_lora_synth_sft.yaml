@@ -4,7 +4,7 @@ trust_remote_code: true
 
 ### Logging
 report_to: wandb
-run_name: trial_example_llama3_8b_lora_sft_github_5k
+run_name: trial_example_llama3_8b_lora_sft_synth_7_5k
 
 ### method
 stage: sft
@@ -18,18 +18,18 @@ lora_target: all
 
 ### dataset
 # dataset: identity,triton_github_scrape_25k_repos
-dataset: triton_sft_5k
+dataset: triton_sft_synth_7_5k
 template: llama3
 # 95% of the dataset check tokenizer
 # very important
 cutoff_len: 1024
-max_samples: 5000
+max_samples: 7500
 overwrite_cache: true
 preprocessing_num_workers: 16
 dataloader_num_workers: 4
 
 ### output
-output_dir: /matx/u/simonguo/triton_sft_models/llama3-8b/lora/sft
+output_dir: /matx/u/simonguo/triton_sft_models/llama3-8b/lora/sft/synth_7_5k
 logging_steps: 10 
 save_steps: 500
 plot_loss: true
@@ -54,7 +54,7 @@ resume_from_checkpoint: null
 
 ### eval
 # eval_dataset: alpaca_en_demo
-# val_size: 0.1
-# per_device_eval_batch_size: 1
-# eval_strategy: steps
-# eval_steps: 500
+val_size: 0.1
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 500

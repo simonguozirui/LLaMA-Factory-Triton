@@ -1,0 +1,5 @@
+model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
+adapter_name_or_path: /matx/u/simonguo/triton_sft_models/llama3-8b/lora/sft
+template: llama3
+infer_backend: vllm  # choices: [huggingface, vllm]
+trust_remote_code: true
