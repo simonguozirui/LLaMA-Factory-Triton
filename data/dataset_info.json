@@ -678,5 +678,41 @@
       "prompt": "content"
     },
     "folder": "python"
+  },
+  "triton_github_sft_5k": {
+    "formatting": "alpaca",
+    "file_name": "/matx/u/simonguo/triton_sft_data/pytorch_scrape_github_inductor_data_alpaca_inst_5000_samples.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "triton_github_sft_15k": {
+    "formatting": "alpaca",
+    "file_name": "/matx/u/simonguo/triton_sft_data/pytorch_scrape_github_inductor_data_alpaca_inst_15000_samples.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "triton_github_sft_18_5k": {
+    "formatting": "alpaca",
+    "file_name": "/matx/u/simonguo/triton_sft_data/pytorch_scrape_github_inductor_data_alpaca_inst_18500_samples.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "triton_sft_synth_7_5k": {
+    "formatting": "alpaca",
+    "file_name": "/matx/u/simonguo/triton_sft_data/pytorch_synthetic_data_alpaca_inst_7500_samples.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
   }
 }
