@@ -45,6 +45,7 @@ def convert_dataset_from_huggingface(dataset_name, output_file, limit:int=None):
 
     # limit
     if limit:
+        limit = min(limit, data.num_rows)
         data = data.select(range(limit))
 
     # Convert to Alpaca format
@@ -74,13 +75,23 @@ def convert_dataset_from_huggingface(dataset_name, output_file, limit:int=None):
 if __name__ == "__main__":
 
 
+    # # GitHub Scrape
+    # out_dataset_dir = "/matx/u/simonguo/triton_sft_data"
+    # limit = 15000
+
+    # out_file_name = f"pytorch_scrape_github_inductor_data_alpaca_inst_{limit}_samples.json"
+    # out_file_path = os.path.join(out_dataset_dir, out_file_name)
+    # dataset_name = "GPUMODE/pytorch_scrape_inductor_data"
+
+
+    # PyTorch Scrape
     out_dataset_dir = "/matx/u/simonguo/triton_sft_data"
-    limit = 5000
+    limit = 7500
 
-    out_file_name = f"pytorch_scrape_github_inductor_data_alpaca_inst_{limit}_samples.json"
+    out_file_name = f"pytorch_synthetic_data_alpaca_inst_{limit}_samples.json"
     out_file_path = os.path.join(out_dataset_dir, out_file_name)
-    dataset_name = "GPUMODE/pytorch_scrape_inductor_data"
-
+    dataset_name = "simonguozirui/popcorn-synth-pytorch-triton"
+    
     convert_dataset_from_huggingface(
         dataset_name=dataset_name,
         output_file=out_file_path,
